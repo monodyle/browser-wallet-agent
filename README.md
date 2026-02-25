@@ -10,7 +10,7 @@ Injects a realistic **MetaMask-like** (EVM) and **Phantom-like** (Solana) wallet
 - **Solana**: Phantom-compatible interface (`window.solana`)
 - **Key management**: Generate wallets, import private keys, mnemonics, HD derivation
 - **Configurable**: Auto-approve, log, or reject signing requests
-- **Single file**: Bundles into one injectable JS file (~430KB)
+- **Single file**: Bundles into one injectable JS file
 - **EIP-6963**: Modern multi-provider discovery support
 - **Realistic**: Events, chain switching, error codes, legacy method support
 
