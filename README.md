@@ -71,7 +71,7 @@ The agent will automatically:
 
 No manual wallet setup, no browser extensions, no seed phrases to manage.
 
-You can also provide your own private key:
+You can also provide your own private key for utilize the assets and funds provided:
 
 > Use browser-wallet skill with the private key `0x4c0883a...` to connect to app.uniswap.org on Ethereum mainnet and check my ETH balance.
 
@@ -95,11 +95,15 @@ Or seed phrases ([Generate new one](https://iancoleman.io/bip39/)):
 | `evm.chains` | object | — | Additional chains for switching |
 | `solana.cluster` | string | `"devnet"` | Solana cluster |
 
-## Agent Skill
+## Installation
 
-The `skills/` directory contains an agent skill that works with any AI coding tool that supports the `SKILL.md` format. Install it for your tool:
+The `skills/` directory contains an agent skill that works with any AI coding tool that supports the `SKILL.md` format.
+
+### Manual install
 
 ```bash
+git clone --depth 1 https://github.com/monodyle/browser-wallet-agent.git browser-wallet-agent && cd browser-wallet-agent
+
 # Claude Code
 cp -r skills/browser-wallet ~/.claude/skills/browser-wallet/
 
@@ -108,6 +112,16 @@ cp -r skills/browser-wallet ~/.cursor/skills/browser-wallet/
 
 # OpenCode
 cp -r skills/browser-wallet ~/.config/opencode/skills/browser-wallet/
+
+rm -rf browser-wallet-agent # cleanup
+```
+
+### Let your agent install it
+
+Ask your AI agent:
+
+```
+Install the browser-wallet skill from https://raw.githubusercontent.com/monodyle/browser-wallet-agent/refs/heads/main/INSTALL.md
 ```
 
 The agent will automatically discover and use the skill for web3 dApp testing.
