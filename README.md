@@ -1,8 +1,8 @@
 # Web3 Browser Wallet
 
-Injectable wallet provider for browser-based web3 testing. Injects a realistic **MetaMask-like** (EVM) and **Phantom-like** (Solana) wallet into any browser page — no extension required.
+Injectable wallet provider for browser-based web3 testing and automation.
 
-Designed to work with [agent-browser](https://agent-browser.dev/) for AI-driven dApp testing and automation.
+Injects a realistic **MetaMask-like** (EVM) and **Phantom-like** (Solana) wallet into any browser page — no extension required. Designed to work with [agent-browser](https://agent-browser.dev/).
 
 ## Features
 
