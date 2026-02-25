@@ -71,15 +71,22 @@ agent-browser click @e5  # Connect Wallet
 | `evm.chains` | object | — | Additional chains for switching |
 | `solana.cluster` | string | `"devnet"` | Solana cluster |
 
-## Cursor Skill
+## Agent Skill
 
-The `skill/` directory contains a Cursor agent skill. Install it:
+The `skills/` directory contains an agent skill that works with any AI coding tool that supports the `SKILL.md` format. Install it for your tool:
 
 ```bash
+# Claude Code
+cp -r skills/browser-wallet ~/.claude/skills/browser-wallet/
+
+# Cursor
 cp -r skills/browser-wallet ~/.cursor/skills/browser-wallet/
+
+# OpenCode
+cp -r skills/browser-wallet ~/.config/opencode/skills/browser-wallet/
 ```
 
-Then any Cursor agent can use it for web3 dApp testing automatically.
+The agent will automatically discover and use the skill for web3 dApp testing.
 
 ## Architecture
 

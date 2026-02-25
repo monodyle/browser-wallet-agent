@@ -25,19 +25,12 @@ declare global {
   const confirmMode = config.confirmMode ?? "auto";
   const providers = config.providers ?? ["evm", "solana"];
 
-  const log = (msg: string, ...args: any[]) => {
-    if (logLevel !== "silent") {
-      console.log("[InjectedWallet]", msg, ...args);
-    }
-  };
-
   try {
     const keys = deriveKeys(config);
     const walletInfo: InjectedWalletInfo = {};
 
     if (keys.mnemonic) {
       walletInfo.mnemonic = keys.mnemonic;
-      log("Mnemonic:", keys.mnemonic);
     }
 
     // -- EVM Provider --
@@ -73,8 +66,6 @@ declare global {
 
       // Also set on the EIP-6963 event for modern dApp discovery
       announceEIP6963(evmProvider);
-
-      log(`EVM wallet injected: ${evmWallet.address} on chain ${evmConfig.chainId}`);
     }
 
     // -- Solana Provider --
@@ -93,16 +84,25 @@ declare global {
       walletInfo.cluster = solConfig.cluster;
 
       window.solana = solProvider;
-
-      log(`Solana wallet injected: ${solWallet.publicKeyBase58} on ${solConfig.cluster}`);
     }
 
     window.__injectedWallet = walletInfo;
-    log("Wallet injection complete", walletInfo);
+
+    printWalletInfo(walletInfo);
   } catch (err) {
     console.error("[InjectedWallet] Failed to inject:", err);
   }
 })();
+
+function printWalletInfo(info: InjectedWalletInfo) {
+  const lines = ["[InjectedWallet] Wallet injected:"];
+  if (info.mnemonic) lines.push(`- Mnemonic: ${info.mnemonic}`);
+  if (info.address) lines.push(`- EVM Address: ${info.address}`);
+  if (info.chainId !== undefined) lines.push(`- Chain ID: ${info.chainId}`);
+  if (info.publicKey) lines.push(`- Solana Key: ${info.publicKey}`);
+  if (info.cluster) lines.push(`- Cluster: ${info.cluster}`);
+  console.log(lines.join("\n"));
+}
 
 /**
  * EIP-6963: Multi Injected Provider Discovery.

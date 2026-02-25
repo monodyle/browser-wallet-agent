@@ -1,4 +1,4 @@
-# Web3 Browser Testing — Troubleshooting
+# Web3 Browser Wallet — Troubleshooting
 
 ## Page won't load / network error / Cloudflare block
 
@@ -23,9 +23,10 @@ Always use `--headed` for production dApps. Only omit it for localhost dev serve
 **Fix**: The injection must happen before the dApp's JS runs. Use the inject-reload-reinject pattern:
 
 ```bash
-BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js
 agent-browser eval "window.__WEB3_WALLET_CONFIG__ = {...};" && cat $BUNDLE | agent-browser eval --stdin && agent-browser reload && agent-browser wait 1000 && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = {...};" && cat $BUNDLE | agent-browser eval --stdin
 ```
+
+(Make sure `$BUNDLE` is set — see the "Bundle Path" section in the main skill doc.)
 
 If the dApp still doesn't detect it, it may use EIP-6963 only. Trigger a re-announcement:
 
@@ -117,14 +118,13 @@ The injected wallet supports `personal_sign`, `eth_sign`, and `eth_signTypedData
 **Fix**: Verify the file exists:
 
 ```bash
-ls -la ~/.cursor/skills/browser-wallet/inject.bundle.js
+ls -la $BUNDLE
 ```
 
-If the path differs, adjust accordingly. Alternative injection method:
+If `$BUNDLE` isn't set, run the auto-detection from the main skill doc's "Bundle Path" section. Alternative injection method:
 
 ```bash
-# Use base64 encoding to avoid shell escaping issues
-agent-browser eval -b "$(base64 < ~/.cursor/skills/browser-wallet/inject.bundle.js)"
+agent-browser eval -b "$(base64 < $BUNDLE)"
 ```
 
 ## Wallet disconnects after page navigation
@@ -134,7 +134,6 @@ agent-browser eval -b "$(base64 < ~/.cursor/skills/browser-wallet/inject.bundle.
 **Fix**: Re-inject using the same config + bundle after any full-page navigation:
 
 ```bash
-BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js
 agent-browser eval "window.__WEB3_WALLET_CONFIG__ = {...};" && cat $BUNDLE | agent-browser eval --stdin
 ```
 

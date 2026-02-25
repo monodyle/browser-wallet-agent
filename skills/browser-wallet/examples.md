@@ -1,12 +1,16 @@
-# Web3 Browser Testing — Examples
+# Web3 Browser Wallet — Examples
 
 All examples use `--headed` mode (recommended for production dApps). The `BUNDLE` variable points to the inject script.
 
 ## Setup variable (run once per session)
 
-```bash
-BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js
-```
+Set `BUNDLE` based on your tool:
+
+| Tool | Command |
+|------|---------|
+| Cursor | `BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js` |
+| Claude Code | `BUNDLE=~/.claude/skills/browser-wallet/inject.bundle.js` |
+| OpenCode | `BUNDLE=~/.config/opencode/skills/browser-wallet/inject.bundle.js` |
 
 ## Example 1: Uniswap Token Swap (EVM)
 

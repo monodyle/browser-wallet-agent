@@ -3,7 +3,7 @@ name: browser-wallet
 description: Inject a realistic wallet provider (MetaMask/Phantom) into any browser page for seamless web3 dApp testing. Use when testing dApps, automating web3 interactions, or developing dApps without browser extension setup. Supports EVM (Ethereum, Polygon, BSC) and Solana chains.
 ---
 
-# Web3 Browser Testing
+# Web3 Browser Wallet
 
 Inject a test wallet into any browser page via `agent-browser`. No extension installs, no manual setup — dApps see a real MetaMask/Phantom wallet.
 
@@ -12,6 +12,16 @@ Inject a test wallet into any browser page via `agent-browser`. No extension ins
 ```bash
 which agent-browser || npm install -g agent-browser
 ```
+
+## Bundle Path
+
+The `inject.bundle.js` file is in the same directory as this skill file. Set the `BUNDLE` variable once per session using the path for your tool:
+
+| Tool | Path |
+|------|------|
+| Cursor | `~/.cursor/skills/browser-wallet/inject.bundle.js` |
+| Claude Code | `~/.claude/skills/browser-wallet/inject.bundle.js` |
+| OpenCode | `~/.config/opencode/skills/browser-wallet/inject.bundle.js` |
 
 ## Quick Start — EVM
 
@@ -24,14 +34,28 @@ agent-browser open https://app.uniswap.org --headed
 **Step 2: Inject wallet** — single chained command that sets config, injects bundle, reloads, and re-injects so the dApp discovers the wallet on init:
 
 ```bash
-BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['evm'], evm: { chainId: 1, rpcUrl: 'https://eth.llamarpc.com' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin && agent-browser reload && agent-browser wait 1000 && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['evm'], evm: { chainId: 1, rpcUrl: 'https://eth.llamarpc.com' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin
+agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['evm'], evm: { chainId: 1, rpcUrl: 'https://eth.llamarpc.com' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin && agent-browser reload && agent-browser wait 1000 && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['evm'], evm: { chainId: 1, rpcUrl: 'https://eth.llamarpc.com' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin
 ```
 
-**Step 3: Verify**
+**Step 3: Verify** — confirm the wallet initialized and show the user their wallet details:
 
 ```bash
 agent-browser eval "JSON.stringify(window.__injectedWallet)"
 ```
+
+Once you receive a valid JSON result (not `undefined`), parse it and tell the user:
+- **Address** — the EVM address (`address` field) or Solana public key (`publicKey` field)
+- **Chain** — current chain ID (`chainId`) or Solana cluster (`cluster`)
+- **Mnemonic** — the seed phrase (`mnemonic`) so they can import/recover the wallet later
+
+Example output you should present:
+
+> Wallet injected successfully!
+> - **Address:** `0x742d35Cc6634C0532925a3b844Bc9e7595f2bD18`
+> - **Chain ID:** 1 (Ethereum Mainnet)
+> - **Mnemonic:** `word1 word2 ... word12`
+
+If the result is `undefined` or `null`, the injection failed — re-run Step 2.
 
 **Step 4: Connect wallet in the dApp**
 
@@ -61,7 +85,7 @@ agent-browser open https://raydium.io/swap --headed
 ```
 
 ```bash
-BUNDLE=~/.cursor/skills/browser-wallet/inject.bundle.js && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['solana'], solana: { cluster: 'devnet' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin && agent-browser reload && agent-browser wait 1000 && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['solana'], solana: { cluster: 'devnet' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin
+agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['solana'], solana: { cluster: 'devnet' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin && agent-browser reload && agent-browser wait 1000 && agent-browser eval "window.__WEB3_WALLET_CONFIG__ = { generate: true, providers: ['solana'], solana: { cluster: 'devnet' }, confirmMode: 'auto', logLevel: 'info' };" && cat $BUNDLE | agent-browser eval --stdin
 ```
 
 Then find and click the "Connect Wallet" → "Phantom" option using the same snapshot/click approach.
