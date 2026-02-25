@@ -54,7 +54,6 @@ agent-browser snapshot -i
 agent-browser click @e5  # Connect Wallet
 ```
 
-
 ## Example Prompt
 
 Once the skill is installed, just ask your AI agent naturally:
@@ -73,7 +72,7 @@ No manual wallet setup, no browser extensions, no seed phrases to manage.
 
 You can also provide your own private key for utilize the assets and funds provided:
 
-> Use browser-wallet skill with the private key `0x4c0883a...` to connect to app.uniswap.org on Ethereum mainnet and check my ETH balance.
+> Use the browser-wallet skill, open: https://sepolia.etherscan.io/address/<ERC_20_CONTRACT>, check the ERC-20 token allowance granted from my wallet address for the spender contract: <SPENDER_CONTRACT>. Report the current allowance amount and the token contract address (if applicable). My private key is: <YOUR_WALLET_PRIVATE_KEY>
 
 Or seed phrases ([Generate new one](https://iancoleman.io/bip39/)):
 
