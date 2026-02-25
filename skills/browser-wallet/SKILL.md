@@ -13,6 +13,17 @@ Inject a test wallet into any browser page via `agent-browser`. No extension ins
 which agent-browser || npm install -g agent-browser
 ```
 
+## Browser Automation — `agent-browser` Basics
+
+This skill builds on `agent-browser`, a full browser automation CLI. Run `agent-browser --help` for all commands.
+
+**Core workflow:**
+
+1. `agent-browser open <url>` — Navigate to a page (add `--headed` for visible browser)
+2. `agent-browser snapshot -i` — Get the page's interactive elements with refs (`@e1`, `@e2`, …)
+3. `agent-browser click @e1` / `agent-browser fill @e2 "text"` — Interact using refs
+4. Re-snapshot after any page change to get updated refs
+
 ## Bundle Path
 
 The `inject.bundle.js` file is in the same directory as this skill file. Set the `BUNDLE` variable once per session using the path for your tool:
