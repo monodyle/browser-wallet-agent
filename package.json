@@ -1,0 +1,44 @@
+{
+  "name": "browser-wallet-agent",
+  "version": "0.1.0",
+  "description": "Injectable wallet provider for browser-based web3 testing — MetaMask-like EVM + Phantom-like Solana",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "vite build && cp dist/inject.bundle.js skills/browser-wallet/inject.bundle.js",
+    "dev": "vite build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "dapp",
+    "web3",
+    "wallet",
+    "testing",
+    "metamask",
+    "phantom",
+    "evm",
+    "solana",
+    "browser"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@noble/ed25519": "^3.0.0",
+    "@noble/hashes": "^2.0.1",
+    "@scure/bip32": "^2.0.1",
+    "@scure/bip39": "^2.0.1",
+    "@solana/web3.js": "^1.98.4",
+    "bs58": "^6.0.0",
+    "ethers": "^6.16.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}
