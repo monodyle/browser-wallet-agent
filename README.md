@@ -14,18 +14,17 @@ Designed to work with [agent-browser](https://agent-browser.dev/) for AI-driven 
 - **EIP-6963**: Modern multi-provider discovery support
 - **Realistic**: Events, chain switching, error codes, legacy method support
 
-## Quick Start
+## Development
 
 ```bash
 # Install dependencies
-npm install
+pnpm install
 
 # Build the injectable bundle
-npm run build
-# Output: dist/inject.bundle.js + skill/inject.bundle.js
+pnpm run build
 
 # Run tests
-npm test
+pnpm test
 ```
 
 ## Usage with agent-browser
@@ -54,6 +53,31 @@ agent-browser evaluate-file dist/inject.bundle.js
 agent-browser snapshot -i
 agent-browser click @e5  # Connect Wallet
 ```
+
+
+## Example Prompt
+
+Once the skill is installed, just ask your AI agent naturally:
+
+> Use browser-wallet skill, go to 'app.uniswap.org', connect a wallet, and try swapping ETH for USDC. Verify the UI shows the correct token pair and amount input works.
+
+The agent will automatically:
+
+1. Open the dApp in a headed browser
+2. Inject the wallet provider with a generated key
+3. Find and click the "Connect Wallet" button
+4. Select the injected wallet option
+5. Interact with the swap UI and verify behavior
+
+No manual wallet setup, no browser extensions, no seed phrases to manage.
+
+You can also provide your own private key:
+
+> Use browser-wallet skill with the private key `0x4c0883a...` to connect to app.uniswap.org on Ethereum mainnet and check my ETH balance.
+
+Or seed phrases ([Generate new one](https://iancoleman.io/bip39/)):
+
+> Use browser-wallet skill with the mnemonic `crack robust what hen ... company` on Polygon (chain 137) to open QuickSwap and approve a token.
 
 ## Configuration
 
@@ -87,22 +111,6 @@ cp -r skills/browser-wallet ~/.config/opencode/skills/browser-wallet/
 ```
 
 The agent will automatically discover and use the skill for web3 dApp testing.
-
-## Architecture
-
-```
-src/
-├── providers/
-│   ├── evm-provider.ts       # EIP-1193 MetaMask-like provider
-│   ├── solana-provider.ts    # Phantom-like Solana provider
-│   └── types.ts              # Shared types
-├── wallet/
-│   ├── evm-wallet.ts         # ethers.js Wallet wrapper
-│   ├── solana-wallet.ts      # tweetnacl Keypair wrapper
-│   └── key-manager.ts        # Key generation & derivation
-├── inject.ts                 # IIFE entry: config → providers → window
-└── index.ts                  # Library exports
-```
 
 ## License
 
